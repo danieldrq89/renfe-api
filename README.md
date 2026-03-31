@@ -2,6 +2,13 @@
 
 Solución integral para la gestión y consulta de estaciones ferroviarias. El proyecto implementa una arquitectura de microservicio que integra una API REST desarrollada en Spring Boot con una base de datos relacional MySQL, orquestada mediante contenedores Docker.
 
+## Acceso Rápido (Swagger UI)
+
+Este proyecto incluye una interfaz de documentación interactiva que permite probar los endpoints directamente desde el navegador, eliminando la necesidad de herramientas externas como Postman.
+
+* **URL de acceso local:** `http://localhost:8080/` (Redirección automática)
+* **URL directa:** `http://localhost:8080/swagger-ui/index.html`
+
 ## Especificaciones Técnicas
 
 * **Framework:** Spring Boot 3.x (Java 17)
