@@ -29,3 +29,19 @@ Para inicializar la infraestructura completa (compilación, creación de red y d
 
 ```powershell
 docker-compose up -d
+```
+## Roadmap y Mejoras Futuras
+Para garantizar la escalabilidad y el mantenimiento del proyecto, se plantean las siguientes implementaciones técnicas:
+
+### 1. CI/CD Pipeline (Jenkins)
+Automatización del ciclo de vida del software mediante un `Jenkinsfile` que realice las siguientes etapas:
+* **Build:** Compilación automatizada de la solución con Maven.
+* **Test:** Ejecución de pruebas unitarias y de integración.
+* **Dockerize:** Generación automática de imágenes tras cada `push` a la rama principal.
+* **Push:** Actualización del repositorio en Docker Hub con tags versionados.
+
+### 2. Seguridad y Optimización
+* **Spring Security:** Implementación de autenticación JWT para proteger los endpoints de consulta.
+* **Caching:** Integración de Redis para cachear las consultas a estaciones más frecuentes y reducir la carga en MySQL.
+* **Healthchecks avanzados:** Mejora de la resiliencia en el orquestador para gestionar reintentos de conexión ante caídas del servicio de base de datos.
+
