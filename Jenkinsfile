@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "mvn --version"
+                sh "${tool 'Maven'}/bin/mvn --version"
             }
         }
         stage('QA') {
