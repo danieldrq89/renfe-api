@@ -3,10 +3,10 @@ pipeline {
 
     stages {
         stage('Test') {
-                steps {
-                    echo 'Hello Tests'
-                }
+            steps {
+                echo 'Hello Tests'
             }
+        }
         stage('Build') {
             steps {
                 echo 'Hello Builds'
@@ -15,18 +15,19 @@ pipeline {
         stage('QA') {
             steps {
                 echo 'Hello QA'
-           }
+            }
         }
-    } post {
+    }
+
+    post {
         always {
-            echo 'Failure'
+            echo 'Always running...'
         }
         success {
-            echo 'Succes'
+            echo 'Success!'
         }
         failure {
             echo 'Failure'
         }
-
     }
 }
