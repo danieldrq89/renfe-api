@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {docker {
+    image 'maven:3.8.4-openjdk-17-slim '
+    }}
 
     stages {
         stage('Test') {
@@ -9,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Hello Builds'
+                sh "mvn --version"
             }
         }
         stage('QA') {
