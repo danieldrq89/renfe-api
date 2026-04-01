@@ -17,5 +17,15 @@ pipeline {
                 echo 'Hello QA'
            }
         }
+    } post {
+        always {
+            echo 'Failure'
+        }
+        success {
+            echo 'Succes'
+        }
+        failure {
+            echo 'Failure'
+        }
     }
 }
