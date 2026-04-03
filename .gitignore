@@ -2,6 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+terraform/.terraform
+terraform/.ssh
 .kotlin
 
 ### IntelliJ IDEA ###
@@ -37,3 +39,18 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+# Terraform extras
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# Llaves y secretos (Safe belt)
+*.pem
+*.pub
+*.key
+.env
+
+# Ansible
+ansible/ansible_hosts

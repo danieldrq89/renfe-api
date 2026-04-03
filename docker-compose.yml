@@ -1,6 +1,6 @@
 services:
   db-renfe:
-    image: danidrq89/renfe:v1_31_03_2026
+    image: danidrq89/renfe:latest
     container_name: db-renfe
     ports:
       - "3306:3306"
@@ -9,7 +9,7 @@ services:
     restart: always
 
   api-renfe:
-    image: danidrq89/renfe-api:v1_31_03_2026__1
+    image: danidrq89/renfe-api:latest
     container_name: api-renfe
     ports:
       - "8080:8080"
