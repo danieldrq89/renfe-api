@@ -12,15 +12,22 @@ pipeline {
         stage('Docker Build & Tag') {
                     steps {
                         script {
-                            // La API está en la raíz según tu 'ls' (donde está el pom.xml y Dockerfile)
-                            sh "docker build -t ${DOCKER_USER}/renfe-api:latest ."
+                            // Esto usa el plugin de Docker de Jenkins
+                            docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-creds') {
 
-                            // La DB está en la carpeta docker-database
-                            sh "docker build -t ${DOCKER_USER}/renfe:latest ./docker-database"
+                                // Construye la imagen de la API
+                                def apiImage = docker.build("${DOCKER_USER}/renfe-api:latest", ".")
+                                apiImage.push()
+                                apiImage.push("${TAG_VERSION}")
+
+                                // Construye la imagen de la DB
+                                def dbImage = docker.build("${DOCKER_USER}/renfe:latest", "./docker-database")
+                                dbImage.push()
+                                dbImage.push("${TAG_VERSION}")
+                            }
                         }
                     }
                 }
-
         stage('Push to Hub') {
             steps {
                 script {
