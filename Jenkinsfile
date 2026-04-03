@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/danieldrq89/renfe-api', branch: 'main'
+                checkout scm
             }
         }
 
