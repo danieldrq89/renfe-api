@@ -1,47 +1,35 @@
 pipeline {
     agent any
     options {
-            skipDefaultCheckout()
-        }
+        skipDefaultCheckout()
+    }
     environment {
         DOCKER_USER = 'danidrq89'
-        TAG_VERSION = "v1_${sh(script: 'date +%d_%m_%Y', returnStdout: true).trim()}__${env.BUILD_NUMBER}"
         DOCKER_CREDS = credentials('docker-hub-creds')
     }
 
     stages {
-        stage('Checkout Manual') {
-                    steps {
-                        checkout scm
-                    }
-                }
-        stage('Docker Build & Tag') {
-                    steps {
-                        script {
-                            docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-creds') {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/danieldrq89/renfe-api', branch: 'main'
+            }
+        }
 
-                                // Construye la imagen de la API
-                                def apiImage = docker.build("${DOCKER_USER}/renfe-api:latest", ".")
-                                apiImage.push()
-                                apiImage.push("${TAG_VERSION}")
-
-                                def dbImage = docker.build("${DOCKER_USER}/renfe:latest", "./docker-database")
-                                dbImage.push()
-                                dbImage.push("${TAG_VERSION}")
-                            }
-                        }
-                    }
-                }
-        stage('Push to Hub') {
+        stage('Docker Build, Tag & Push') {
             steps {
                 script {
-                    sh "echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin"
+                    def tagVersion = "v1_${sh(script: 'date +%d_%m_%Y', returnStdout: true).trim()}__${env.BUILD_NUMBER}"
 
-                    sh "docker push ${DOCKER_USER}/renfe-api:${TAG_VERSION}"
-                    sh "docker push ${DOCKER_USER}/renfe:${TAG_VERSION}"
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-creds') {
 
-                    sh "docker push ${DOCKER_USER}/renfe-api:latest"
-                    sh "docker push ${DOCKER_USER}/renfe:latest"
+                        def apiImage = docker.build("${DOCKER_USER}/renfe-api:latest", ".")
+                        apiImage.push('latest')
+                        apiImage.push(tagVersion)
+
+                        def dbImage = docker.build("${DOCKER_USER}/renfe:latest", "./docker-database")
+                        dbImage.push('latest')
+                        dbImage.push(tagVersion)
+                    }
                 }
             }
         }
