@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    options {
+            skipDefaultCheckout()
+        }
     environment {
         DOCKER_USER = 'danidrq89'
         TAG_VERSION = "v1_${sh(script: 'date +%d_%m_%Y', returnStdout: true).trim()}__${env.BUILD_NUMBER}"
@@ -8,6 +10,11 @@ pipeline {
     }
 
     stages {
+        stage('Checkout Manual') {
+                    steps {
+                        checkout scm
+                    }
+                }
         stage('Docker Build & Tag') {
                     steps {
                         script {
@@ -29,10 +36,10 @@ pipeline {
             steps {
                 script {
                     sh "echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin"
-                    
+
                     sh "docker push ${DOCKER_USER}/renfe-api:${TAG_VERSION}"
                     sh "docker push ${DOCKER_USER}/renfe:${TAG_VERSION}"
-                    
+
                     sh "docker push ${DOCKER_USER}/renfe-api:latest"
                     sh "docker push ${DOCKER_USER}/renfe:latest"
                 }
