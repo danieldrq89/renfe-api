@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)   // 👈 clave
+    }
+
     environment {
         DOCKER_USER = 'danidrq89'
         DOCKER_CREDS = credentials('docker-hub-creds')
@@ -9,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                deleteDir()
+                deleteDir()         // 🔥 limpia workspace corrupto
                 checkout scm
             }
         }
