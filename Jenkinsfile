@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     options {
-        skipDefaultCheckout(true)   // 👈 clave
+        skipDefaultCheckout(true)
     }
 
     environment {
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                deleteDir()         // 🔥 limpia workspace corrupto
+                deleteDir()
                 checkout scm
             }
         }
