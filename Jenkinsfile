@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout()
-    }
+
     environment {
         DOCKER_USER = 'danidrq89'
         DOCKER_CREDS = credentials('docker-hub-creds')
