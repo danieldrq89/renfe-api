@@ -54,3 +54,11 @@ build/
 
 # Ansible
 ansible/ansible_hosts
+
+# Ignorar archivos de datos en la carpeta de la base de datos
+docker-database/*.txt
+docker-database/*.csv
+
+# Excepto los archivos de configuración (por si acaso hubiera una regla global que los quitara)
+!docker-database/Dockerfile
+!docker-database/import.sql
