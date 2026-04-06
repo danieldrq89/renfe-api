@@ -36,28 +36,31 @@ resource "aws_key_pair" "mi_llave" {
   public_key = file("${path.module}/.ssh/llave-renfe.pub")
 }
 
-# 4. Instancia EC2 con Nginx
 resource "aws_instance" "servidor_web" {
-  ami           = "ami-0c7217cdde317cfec" # Ubuntu
+  # Indicamos que queremos 3 instancias
+  count         = 3
+
+  ami           = "ami-0c7217cdde317cfec"
   instance_type = "t3.micro"
   key_name      = aws_key_pair.mi_llave.key_name
   vpc_security_group_ids = [aws_security_group.allow_web.id]
 
-  # SCRIPT DE INSTALACIÓN AUTOMÁTICA
   user_data = <<-EOF
               #!/bin/bash
               apt-get update -y
               apt-get install -y nginx
               systemctl start nginx
               systemctl enable nginx
-              echo "<h1>Servidor Renfe API - Nginx funcionando</h1>" > /var/www/html/index.html
+              echo "<h1>Servidor Renfe API - Instancia ${count.index}</h1>" > /var/www/html/index.html
               EOF
 
   tags = {
-    Name = "Servidor-Nginx-Ubuntu"
+    # Usamos count.index para diferenciarlas: Servidor-0, Servidor-1, etc.
+    Name = "Servidor-Nginx-Ubuntu-${count.index}"
   }
 }
 
-output "instancia_ip" {
-  value = aws_instance.servidor_web.public_ip
+# Modificamos el output para que muestre la lista de IPs de todas las instancias
+output "instancia_ips" {
+  value = aws_instance.servidor_web[*].public_ip
 }
