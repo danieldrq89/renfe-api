@@ -52,7 +52,7 @@ build/
 *.key
 .env
 
-# Ansible
+# Ansibled
 ansible/ansible_hosts
 
 # Ignorar archivos de datos en la carpeta de la base de datos
