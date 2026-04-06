@@ -19,8 +19,6 @@ CREATE TABLE estaciones (
     comun TEXT
 );
 
--- COMENTADO: No hay archivo estaciones.csv en Jenkins
-/*
 LOAD DATA INFILE '/var/lib/mysql-files/estaciones.csv'
 INTO TABLE estaciones
 CHARACTER SET latin1
@@ -31,7 +29,6 @@ IGNORE 1 LINES
 (id, codigo, descripcion, @lat, @lon, direccion, cp, poblacion, provincia, pais, cercanias, feve, comun)
 SET latitud = NULLIF(REPLACE(@lat, ',', '.'), ''),
     longitud = NULLIF(REPLACE(@lon, ',', '.'), '');
-*/
 
 CREATE TABLE rutas (
     route_id VARCHAR(50) PRIMARY KEY,
@@ -43,7 +40,6 @@ CREATE TABLE rutas (
 );
 
 -- COMENTADO: No hay archivo routes.txt en Jenkins
-/*
 LOAD DATA INFILE '/var/lib/mysql-files/routes.txt'
 INTO TABLE rutas
 CHARACTER SET utf8mb4
@@ -51,4 +47,3 @@ FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
-*/

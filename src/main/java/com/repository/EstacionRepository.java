@@ -70,7 +70,7 @@ public class EstacionRepository {
 
     public List<Estacion> getEstacionByLikeId(int id){
         List<Estacion> estaciones = new ArrayList<>();
-        String query = "SELECT * FROM estaciones WHERE _id = ?";
+        String query = "SELECT * FROM estaciones WHERE id = ?";
 
         try(Connection conn = DriverManager.getConnection(url,user,pass);
 
@@ -91,7 +91,7 @@ public class EstacionRepository {
 
     private Estacion mapResultSetToEstacion(ResultSet rs) throws SQLException {
         Estacion estacion = new Estacion();
-        estacion.setId(rs.getInt("_id"));
+        estacion.setId(rs.getInt("id"));
         estacion.setCodigo(rs.getString("codigo"));
         estacion.setNombre(rs.getString("descripcion"));
         estacion.setLatitud(rs.getDouble("latitud"));

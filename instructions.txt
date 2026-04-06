@@ -1,0 +1,19 @@
+# 1. Crear la red para que se vean entre ellos
+docker network create renfe-network || true
+
+# 2. DATABASE (Construir y levantar primero)
+# Entramos en la carpeta específica de la base de datos
+cd docker-database
+docker build -t danidrq89/renfedb-local:latest .
+docker run -d --name db-renfe --network renfe-network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=renfe danidrq89/renfedb-local:latest
+
+# Volvemos a la raíz para la API
+cd ..
+
+# 3. Esperar un poco a que MySQL inicialice los datos (opcional pero recomendado)
+echo "Esperando 15 segundos a que la DB esté lista..."
+sleep 15
+
+# 4. API (Construir y levantar)
+docker build -t danidrq89/renfe-api-local:latest .
+docker run -d --name api-renfe --network renfe-network -p 8080:8080 danidrq89/renfe-api-local:latest
