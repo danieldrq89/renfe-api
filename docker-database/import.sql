@@ -19,6 +19,8 @@ CREATE TABLE estaciones (
     comun TEXT
 );
 
+
+
 LOAD DATA INFILE '/var/lib/mysql-files/estaciones.csv'
 INTO TABLE estaciones
 CHARACTER SET latin1
@@ -29,3 +31,21 @@ IGNORE 1 LINES
 (id, codigo, descripcion, @lat, @lon, direccion, cp, poblacion, provincia, pais, cercanias, feve, comun)
 SET latitud = NULLIF(REPLACE(@lat, ',', '.'), ''),
     longitud = NULLIF(REPLACE(@lon, ',', '.'), '');
+
+
+CREATE TABLE rutas (
+    route_id VARCHAR(50) PRIMARY KEY,
+    route_short_name VARCHAR(100),
+    route_long_name VARCHAR(255),
+    route_type INT, -- 2 para trenes de cercanías/largo recorrido
+    route_color VARCHAR(10),
+    route_text_color VARCHAR(10)
+);
+
+LOAD DATA INFILE '/var/lib/mysql-files/routes.txt'
+INTO TABLE rutas
+CHARACTER SET utf8mb4
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;

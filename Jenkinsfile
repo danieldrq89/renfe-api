@@ -28,7 +28,7 @@ pipeline {
                         def apiImage = docker.build("${DOCKER_USER}/renfe-api:latest", ".")
                         apiImage.push('latest')
                         apiImage.push(tagVersion)
-
+getEstacionByLikeId
                         def dbImage = docker.build("${DOCKER_USER}/renfe:latest", "./docker-database")
                         dbImage.push('latest')
                         dbImage.push(tagVersion)

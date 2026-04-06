@@ -21,4 +21,6 @@ public class EstacionService {
     public List<Estacion> getEstacionByName(String name) {
         return estacionRepository.getEstacionesByLikeName(name) ;
     }
+
+    public List<Estacion> getEstacionById(int id){return estacionRepository.getEstacionByLikeId(id);}
 }

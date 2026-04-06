@@ -17,14 +17,18 @@ public class EstacionController {
         this.estacionService = estacionService;
     }
 
-
-
     @GetMapping("/estaciones")
     public List<Estacion> getAllUsers() {
         return estacionService.getAll();
     }
+
     @GetMapping("/estacion/{name}")
     public List<Estacion> getEstacionByName(@PathVariable("name") String name) {
         return estacionService.getEstacionByName(name);
+    }
+
+    @GetMapping("/estacion/{id}")
+    public List<Estacion> getEstacionById(@PathVariable("id") int id){
+        return estacionService.getEstacionById(id);
     }
 }

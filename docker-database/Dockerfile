@@ -3,3 +3,4 @@ ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_DATABASE=renfe
 COPY import.sql /docker-entrypoint-initdb.d/
 COPY estaciones.csv /var/lib/mysql-files/
+COPY routes.txt /var/lib/mysql-files/

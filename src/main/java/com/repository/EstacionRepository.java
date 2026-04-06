@@ -68,6 +68,27 @@ public class EstacionRepository {
         return estaciones;
     }
 
+    public List<Estacion> getEstacionByLikeId(int id){
+        List<Estacion> estaciones = new ArrayList<>();
+        String query = "SLECT * FROM estaciones WHERE _id LIKE ?";
+
+        try(Connection conn = DriverManager.getConnection(url,user,pass);
+
+            PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setInt(1,id);
+
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while(rs.next()){
+                    estaciones.add(mapResultSetToEstacion(rs));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return estaciones;
+    }
+
     private Estacion mapResultSetToEstacion(ResultSet rs) throws SQLException {
         Estacion estacion = new Estacion();
         estacion.setId(rs.getInt("id"));
