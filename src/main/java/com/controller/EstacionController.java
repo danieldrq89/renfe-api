@@ -28,7 +28,7 @@ public class EstacionController {
     }
 
     @GetMapping("/estacion/{id}")
-    public List<Estacion> getEstacionById(@PathVariable("id") int id){
-        return estacionService.getEstacionById(id);
+    public List<Estacion> getEstacionById(@PathVariable("id") String id){
+        return estacionService.getEstacionById(Integer.parseInt(id));
     }
 }

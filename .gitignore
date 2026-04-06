@@ -62,5 +62,3 @@ docker-database/*.csv
 # Excepto los archivos de configuración (por si acaso hubiera una regla global que los quitara)
 !docker-database/Dockerfile
 !docker-database/import.sql
-!docker-database/routes.txt
-!docker-database/estaciones.csv
