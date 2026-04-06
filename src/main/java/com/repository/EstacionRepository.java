@@ -91,7 +91,7 @@ public class EstacionRepository {
 
     private Estacion mapResultSetToEstacion(ResultSet rs) throws SQLException {
         Estacion estacion = new Estacion();
-        estacion.setId(rs.getInt("id"));
+        estacion.setId(rs.getInt("_id"));
         estacion.setCodigo(rs.getString("codigo"));
         estacion.setNombre(rs.getString("descripcion"));
         estacion.setLatitud(rs.getDouble("latitud"));
