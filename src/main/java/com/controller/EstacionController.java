@@ -31,4 +31,24 @@ public class EstacionController {
     public List<Estacion> getEstacionById(@PathVariable("id") String id){
         return estacionService.getEstacionById(Integer.parseInt(id));
     }
+
+    @GetMapping("/estacion/code/{code}")
+    public List<Estacion> getEstacionByCode(@PathVariable("code") String code) {
+        return estacionService.getEstacionByCode(code);
+    }
+
+    @GetMapping("/estacion/direccion/{direccion}")
+    public List<Estacion> getEstacionByDireccion(@PathVariable("direccion") String direccion) {
+        return estacionService.getEstacionByDireccion(direccion);
+    }
+
+    @GetMapping("/estacion/provincia/{provincia}")
+    public List<Estacion> getEstacionByProvincia(@PathVariable("provincia") String provincia) {
+        return estacionService.getEstacionByProvincia(provincia);
+    }
+
+    @GetMapping("/estacion/poblacion/{poblacion}")
+    public List<Estacion> getEstacionByPoblacion(@PathVariable("poblacion") String poblacion) {
+        return estacionService.getEstacionByPoblacion(poblacion);
+    }
 }

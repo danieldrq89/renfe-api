@@ -22,5 +22,13 @@ public class EstacionService {
         return estacionRepository.getEstacionesByLikeName(name) ;
     }
 
-    public List<Estacion> getEstacionById(int id){return estacionRepository.getEstacionByLikeId(id);}
+    public List<Estacion> getEstacionById(int id){return estacionRepository.getEstacionById(id);}
+
+    public List<Estacion> getEstacionByCode(String code){return estacionRepository.getEstacionByCode(code);};
+
+    public List<Estacion> getEstacionByDireccion(String direccion){return estacionRepository.getEstacionByDireccion(direccion);};
+
+    public List<Estacion> getEstacionByProvincia(String provincia){return estacionRepository.getEstacionByProvincia(provincia);};
+
+    public List<Estacion> getEstacionByPoblacion(String poblacion){return estacionRepository.getEstacionByPoblacion(poblacion);};
 }

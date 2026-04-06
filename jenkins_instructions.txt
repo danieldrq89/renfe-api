@@ -1,0 +1,9 @@
+docker build -t jenkins-con-docker -f Dockerfile.jenkins .
+
+docker run -d \
+  --name jenkins-renfe \
+  --network renfe-network \
+  -p 808:8080 \
+  -v jenkins_home:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  jenkins-con-docker

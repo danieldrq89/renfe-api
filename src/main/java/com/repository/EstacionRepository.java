@@ -14,49 +14,20 @@ public class EstacionRepository {
     private final String user = "root";
     private final String pass = "root";
 
-    public List<Estacion> getAllEstaciones() {
-        List<Estacion> estaciones = new ArrayList<>();
-        String query = "SELECT * FROM estaciones";
-
-        try (Connection conn = DriverManager.getConnection(url, user, pass);
-             Statement statement = conn.createStatement();
-             ResultSet rs = statement.executeQuery(query)) {
-
-            while (rs.next()) {
-                estaciones.add(mapResultSetToEstacion(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return estaciones;
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, user, pass);
     }
 
-    public Estacion getEstacionByName(String name) {
-        String query = "SELECT * FROM estaciones WHERE descripcion = ?";
-
-        try (Connection conn = DriverManager.getConnection(url, user, pass);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            pstmt.setString(1, name);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToEstacion(rs);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public List<Estacion> getEstacionesByLikeName(String name) {
+    private List<Estacion> executeQuery(String query, Object... params) {
         List<Estacion> estaciones = new ArrayList<>();
-        String query = "SELECT * FROM estaciones WHERE LOWER(descripcion) LIKE LOWER(?)";
-
-        try (Connection conn = DriverManager.getConnection(url, user, pass);
+        try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setString(1, "%" + name + "%");
+            // Seteamos los parámetros dinámicamente (no importa si es int o string)
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     estaciones.add(mapResultSetToEstacion(rs));
@@ -68,27 +39,36 @@ public class EstacionRepository {
         return estaciones;
     }
 
-    public List<Estacion> getEstacionByLikeId(int id){
-        List<Estacion> estaciones = new ArrayList<>();
-        String query = "SELECT * FROM estaciones WHERE id = ?";
 
-        try(Connection conn = DriverManager.getConnection(url,user,pass);
-
-            PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setInt(1,id);
-
-            try(ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()){
-                    estaciones.add(mapResultSetToEstacion(rs));
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return estaciones;
+    public List<Estacion> getAllEstaciones() {
+        return executeQuery("SELECT * FROM estaciones");
     }
 
+    public List<Estacion> getEstacionById(int id) {
+        return executeQuery("SELECT * FROM estaciones WHERE id = ?", id);
+    }
+
+    public List<Estacion> getEstacionByCode(String code) {
+        return executeQuery("SELECT * FROM estaciones WHERE LOWER(codigo) LIKE LOWER(?)","%" + code + "%");
+    }
+
+    public List<Estacion> getEstacionesByLikeName(String name) {
+        return executeQuery("SELECT * FROM estaciones WHERE LOWER(descripcion) LIKE LOWER(?)", "%" + name + "%");
+    }
+
+    public List<Estacion> getEstacionByProvincia(String prov) {
+        return executeQuery("SELECT * FROM estaciones WHERE LOWER(provincia) LIKE LOWER(?)", "%" + prov + "%");
+    }
+
+    public List<Estacion> getEstacionByPoblacion(String pobl) {
+        return executeQuery("SELECT * FROM estaciones WHERE LOWER(poblacion) LIKE LOWER(?)", "%" + pobl + "%");
+    }
+
+    public List<Estacion> getEstacionByDireccion(String direccion) {
+        return executeQuery("SELECT * FROM estaciones WHERE LOWER(direccion) LIKE LOWER(?)", "%" + direccion + "%");
+    }
+
+    // --- MAPPER (Sigue igual) ---
     private Estacion mapResultSetToEstacion(ResultSet rs) throws SQLException {
         Estacion estacion = new Estacion();
         estacion.setId(rs.getInt("id"));
