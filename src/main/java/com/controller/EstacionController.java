@@ -22,12 +22,12 @@ public class EstacionController {
         return estacionService.getAll();
     }
 
-    @GetMapping("/estacion/{name}")
+    @GetMapping("/estacion/name/{name}")
     public List<Estacion> getEstacionByName(@PathVariable("name") String name) {
         return estacionService.getEstacionByName(name);
     }
 
-    @GetMapping("/estacion/{id}")
+    @GetMapping("/estacion/id/{id}")
     public List<Estacion> getEstacionById(@PathVariable("id") String id){
         return estacionService.getEstacionById(Integer.parseInt(id));
     }
