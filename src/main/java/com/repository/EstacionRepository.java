@@ -70,7 +70,7 @@ public class EstacionRepository {
 
     public List<Estacion> getEstacionByLikeId(int id){
         List<Estacion> estaciones = new ArrayList<>();
-        String query = "SLECT * FROM estaciones WHERE _id LIKE ?";
+        String query = "SELECT * FROM estaciones WHERE _id = ?";
 
         try(Connection conn = DriverManager.getConnection(url,user,pass);
 
